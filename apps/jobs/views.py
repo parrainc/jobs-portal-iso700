@@ -60,3 +60,30 @@ def BuscarAjax(request):
 		return HttpResponse(data, content_type='application/json')
 	else:
 		raise Http404
+
+
+def PostJob(request):	
+	if request.is_ajax():
+		title = request.POST.get('title')
+		description = request.POST.get('description')
+		email = request.POST.get('email')
+		user = request.POST.get('user', None)
+		tags = request.POST.get('tags')
+
+		job = Job()
+		job.title = title
+		job.description = description
+		job.email = email
+		job.user = user
+		job.tag = tags
+		job.save()
+
+		# Question.objects.get(id=request.POST.get('qid'))
+		data = json.dumps({
+			'result': 'Created!',
+			'code': '200',
+		})
+		
+		return HttpResponse(data, content_type='application/json')
+	else:
+		raise Http404

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %} Todas las preguntas | Discuss {% endblock %}
+
+{% block content %}
+
+	<div class="container">
+		<br /><br /><br />
+		<div class="row">
+			<div class="col-md-8">
+				<p class="tags">
+					<span>Buscar por etiquetas: </span>
+					{% for tag in tags %}
+						<button id="{{ tag.id }}" type="button" class="btn btn-default btn-xs">{{ tag.nombre }}</button>
+					{% endfor %}
+				</p>
+				<div id="datos">
+				{% for job in jobs %}
+					<h3><a href="/jobs/{{ job.slug }}/">{{ job.title }}</a> | <small><i>by:</i> {{ job.user }}</small></h3>
+					<section>
+						<p>{{ job.description }}</p>
+						<p class="bg-success bg-fecha-customize">Publicado: <span>{{ job.modified }}</span></p>
+					</section>
+				{% endfor %}
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		$(document).ready(function() {
+			$('.btn-xs').on('click', HizeClick);
+			
+			function HizeClick() {
+				var id = $(this).attr('id');
+				
+				$.ajax({
+					data: 	{'id': id},
+					url: 	'/buscar-ajax/',
+					type: 	'get',
+					success: function(data) {
+						var html = '';
+
+						for (var i = 0; i < data.length; i++) {
+							html += '<h3><a href="/questions/'+ data[i].fields.slug +'/">'+ data[i].fields.title +'</a> | <small><i>by:</i> '+ data[i].fields.user +'</small></h3><section><p class="bg-info bg-info-customize">Vistos <span>2</span></p> <p class="bg-warning bg-info-customize">Respuestas <span>0</span></p><p class="bg-success bg-info-customize">Votos <span>0</span></p><p class="bg-success bg-fecha-customize">Publicado: <span>'+ data[i].fields.modified +'</span></p></section>'
+						}
+
+						if(html == '') {
+							html = '<h4>No questions with the specified tag</h4>';
+						}
+
+						$('#datos').html(html)
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Detalle del puesto {% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<p>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h2>{{ job.title }}</h2>
+						<small>Por: <a href="#"><i>{{ job.user }}</i></a></small>
+					</div>
+					<div class="panel-body">
+						<h3>Detalle del puesto</h3>
+						<p>{{ job.description }}</p>
+					</div>
+					<div class="panel-body">
+						<h4>Como aplicar?</h4>
+						<p>Envia tu CV a: {{ job.title }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</p>
+</div>
+
+{% endblock %}

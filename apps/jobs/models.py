@@ -4,14 +4,14 @@ from django.template.defaultfilters import slugify
 
 
 class Tag(models.Model):
-	nombre = models.CharField(max_length=60)
+	name = models.CharField(max_length=60)
 
 	def __str__(self):
-		return self.nombre
+		return self.name
 
 
 class Job(models.Model):
-	user = models.CharField(max_length=200, null=True, blank=True)
+	user = models.CharField(max_length=200, null=True, blank=True, default='Confidential')
 	description = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now_add=True)

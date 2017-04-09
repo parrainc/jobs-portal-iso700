@@ -52,14 +52,96 @@
               <h4 class="modal-title" id="myModalLabel">Nueva Oportunidad de Empleo</h4>
             </div>
             <div class="modal-body">
-              <!-- ui elements here-->
+                <form class="form-horizontal" role="form" id="post_job_form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <input type="text" name="title" class="form-control" placeholder="Titulo del empleo" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <textarea rows="8" cols="4" name="description" placeholder="Descripción del puesto" class="form-control"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <input type="email" name="email" class="form-control" placeholder="tu@correo.com" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <select name="tags" class="form-control">
+                      <option value="-1">Tags</option>
+                      {% for tag in all_tags %}
+                      <option value="{{ tag.name }}">{{ tag.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <input type="text" name="posted_by" class="form-control" placeholder="Publicado por: [opcional]" />
+                  </div>
+                </div>
+              </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Publicar empleo</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" id="postJob">Publicar empleo</button>
             </div>
           </div>
         </div>
       </div>
     </div> <!-- /container -->
+{% endblock %}
+
+{% block scripts %}
+
+  <script>
+  $("document").ready(function() {
+    $("#postJob").on("click", postearEmpleo);
+
+    function postearEmpleo() {
+      var jobTitle = $("input[name='title']").val();
+      var jobDescription = $("textarea[name='description']").val();
+      var email = $("input[name='email']").val();
+      var tags = $("select[name='tags']").val();
+      var user = $("input[name='posted_by']").val();
+
+      if (jobTitle == "" || jobDescription == "" || email == "") {
+        alert("You must fill required fields.");
+        return;
+      }
+
+      $.ajax({
+        url: '/post-job/',
+        type: 'POST',
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'title': jobTitle,
+          'description': jobDescription,
+          'email': email,
+          'tags': tags,
+          //'user': user 
+        },
+        success: function(data) {
+          alert("Trabajo publicado exitosamente!");
+          $("#postearEmpleoModal").modal('hide');
+          $("#post_job_form")[0].reset();
+          console.log(data);
+        },
+        error: function(error) {
+          alert("Algo salio mal");
+          console.log("Ha ocurrido un error" + error)
+        }
+      });
+    }
+  });
+  </script>
+
 {% endblock %}

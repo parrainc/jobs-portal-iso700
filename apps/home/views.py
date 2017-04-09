@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import ListView, View
 from django.http import HttpResponseRedirect
 
-from apps.jobs.models import Job
+from apps.jobs.models import Job, Tag
 from .forms import LoginForm
 
 class IndexView(ListView):
@@ -12,7 +12,8 @@ class IndexView(ListView):
 	def get_queryset(self):
 		queryset = Job.objects.all().order_by('-created')[:10]
 		tags = [ job.tag.all() for job in queryset]
-		return zip(queryset, tags)
+		all_tags = Tag.objects.all()
+		return zip(queryset, tags, all_tags)
 
 
 class LoginView(View):
