@@ -15,12 +15,12 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
-      {% for question, tags in object_list %}
+      {% for job, tags in object_list %}
           <div class="col-md-3">
-            <h2><a href="#">{{ question.title }}</a></h2>
-            <p>By: <a href="#"><span>Posteado por: Nombre de usuario</span></a></p>
-            <p>{{ question.description|truncatechars:50 }}</p>
-            <p>Fecha de publicación: <span>{{ question.modified }}</span></p>
+            <h2><a href="{% url 'jobs:detail_job' job.slug %}">{{ job.title }}</a></h2>
+            <p>By: <a href="#"><span>Posteado por: {{ job.user }}</span></a></p>
+            <p>{{ job.description|truncatechars:50 }}</p>
+            <p>Fecha de publicación: <span>{{ job.modified }}</span></p>
             <p>
               <div class="tags">
                 {% for tag in tags %}
@@ -28,7 +28,7 @@
                 {% endfor %}
               </div>
             </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-default" href="{% url 'jobs:detail_job' job.slug %}" role="button">View details &raquo;</a></p>
           </div>
         {% endfor %}
       </div>
