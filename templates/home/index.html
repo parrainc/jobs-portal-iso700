@@ -15,19 +15,22 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
+      {% for question, tags in object_list %}
           <div class="col-md-3">
-            <h2><a href="#">Titulo</a></h2>
+            <h2><a href="#">{{ question.title }}</a></h2>
             <p>By: <a href="#"><span>Posteado por: Nombre de usuario</span></a></p>
-            <p>Descripcion</p>
-            <p>Publicado en: <span>Fecha</span></p>
+            <p>{{ question.description|truncatechars:50 }}</p>
+            <p>Fecha de publicación: <span>{{ question.modified }}</span></p>
             <p>
               <div class="tags">
-                  <button type="button" class="btn btn-default btn-xs">Tags</button>
+                {% for tag in tags %}
+                  <button type="button" class="btn btn-default btn-xs">{{ tag.nombre }}</button>
+                {% endfor %}
               </div>
             </p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
           </div>
-        
+        {% endfor %}
       </div>
 
       <hr>
