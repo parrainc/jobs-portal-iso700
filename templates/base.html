@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} {% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    {% load static from staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jumbotron.css' %}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Portal de Empleos</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          {% block profile %}
+            {% if user.is_authenticated %}
+              <ul class="nav navbar-nav navbar-right">
+                <li class="contenido-image-perfil">
+                  <a href="#" class="padding-minus">
+                    <img src="" height="50" width="50" class="foto-perfil">
+                  </a>
+                </li>
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Username<i class="caret"></i>
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Perfil</a></li>
+
+                    {% if user.is_staff %}
+                      <li class="divider"></li>
+                      <li><a href="/admin">Go to Admin</a></li>
+                    {% endif %}
+                    
+                    <li class="divider"></li>
+                    <li><a href="{% url 'users:logout' %}">Salir <span class="glyphicon glyphicon-logout"></span></a></li>
+                  </ul>
+                </li>
+              </ul>
+            {% endif %}
+          {% endblock %}
+
+          {% if not user.is_authenticated %}
+          <div class="navbar-form navbar-right">
+              <a href="#">
+                <button class="btn btn-success" type="button">Log in</button>
+              </a>
+          </div>
+          {% endif %}
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>

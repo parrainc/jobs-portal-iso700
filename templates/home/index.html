@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Portal de Empleos RD {% endblock %}
+
+{% block content %}
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Bienvenidos</h1>
+        <p>El portal de empleos mas popular de Republica Dominicana!</p>
+        <p><a class="btn btn-success btn-md" href="#" role="button">Publicar una oferta &raquo;</a> |
+        <a class="btn btn-primary btn-md" href="#" role="button">Ver todas las ofertas de empleo &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <!-- {% for question, tags in object_list %} -->
+          <div class="col-md-3">
+            <h2><a href="#">Titulo</a></h2>
+            <p>By: <a href="#"><span>Posteado por: Nombre de usuario</span></a></p>
+            <p>Descripcion</p>
+            <p>Publicado en: <span>Fecha</span></p>
+            <p>
+              <div class="tags">
+                <!-- {% for tag in tags %} -->
+                  <button type="button" class="btn btn-default btn-xs">Tags</button>
+                <!-- {% endfor %} -->
+              </div>
+            </p>
+            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          </div>
+        <!-- {% endfor %} -->
+        
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>
+          <!-- <strong>Total de empleos: </strong>Number goes here -->
+          <!-- <strong>Total usuarios: </strong>Number goes here -->
+        </p>
+        <p>&copy; Company 2014</p>
+
+      </footer>
+    </div> <!-- /container -->
+{% endblock %}
