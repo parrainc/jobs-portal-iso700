@@ -24,7 +24,7 @@
             <p>
               <div class="tags">
                 {% for tag in tags %}
-                  <button type="button" class="btn btn-default btn-xs">{{ tag.nombre }}</button>
+                  <button type="button" class="btn btn-default btn-xs">{{ tag.name }}</button>
                 {% endfor %}
               </div>
             </p>
@@ -76,9 +76,6 @@
                   <div class="col-sm-10">
                     <select name="tags" class="form-control">
                       <option value="-1">Tags</option>
-                      {% for tag in all_tags %}
-                      <option value="{{ tag.name }}">{{ tag.name }}</option>
-                      {% endfor %}
                     </select>
                   </div>
                 </div>
@@ -105,6 +102,21 @@
   <script>
   $("document").ready(function() {
     $("#postJob").on("click", postearEmpleo);
+
+    $(function getAllTags() {
+      $.ajax({
+          url: '/get-tags/',
+          type: 'get',
+          contentType: 'application/json',
+          dataType: 'json',
+          success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+              $("select[name='tags']").append($('<option>', {value: data[i].fields.name, text: data[i].fields.name}));
+            }
+              console.log(data); //for debug purpose
+          }
+        });
+      });
 
     function postearEmpleo() {
       var jobTitle = $("input[name='title']").val();

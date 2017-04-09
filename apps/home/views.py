@@ -1,7 +1,9 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import ListView, View
-from django.http import HttpResponseRedirect
+from django.core import serializers
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 
 from apps.jobs.models import Job, Tag
 from .forms import LoginForm
@@ -12,8 +14,7 @@ class IndexView(ListView):
 	def get_queryset(self):
 		queryset = Job.objects.all().order_by('-created')[:10]
 		tags = [ job.tag.all() for job in queryset]
-		all_tags = Tag.objects.all()
-		return zip(queryset, tags, all_tags)
+		return zip(queryset, tags)
 
 
 class LoginView(View):
@@ -55,3 +56,16 @@ class LoginView(View):
 
 def login_view(request):
 	return render(request, 'home/login_form.html')
+
+
+def get_all_tags(request):
+	if request.is_ajax():
+		try:
+			tag = Tag.objects.all()
+			data = serializers.serialize('json', tag, fields = {'name'})
+			# print(data)
+			return HttpResponse(data, content_type='application/json')
+		except Exception as e:
+			raise e
+	else:
+		raise Http404

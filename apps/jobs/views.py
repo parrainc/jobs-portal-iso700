@@ -68,15 +68,16 @@ def PostJob(request):
 		description = request.POST.get('description')
 		email = request.POST.get('email')
 		user = request.POST.get('user', None)
-		tags = request.POST.get('tags')
+		tags = Tag.objects.get(name=request.POST.get('tags'))
+		#tags = Tag.objects.get(name='C#')
 
 		job = Job()
 		job.title = title
 		job.description = description
 		job.email = email
 		job.user = user
-		job.tag = tags
 		job.save()
+		job.tag.add(tags)
 
 		# Question.objects.get(id=request.POST.get('qid'))
 		data = json.dumps({
