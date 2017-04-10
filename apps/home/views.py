@@ -58,6 +58,11 @@ def login_view(request):
 	return render(request, 'home/login_form.html')
 
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+
 def get_all_tags(request):
 	if request.is_ajax():
 		try:
