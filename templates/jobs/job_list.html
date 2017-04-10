@@ -10,13 +10,19 @@
 			<div class="col-md-8">
 				<p class="tags">
 					<span>Buscar por etiquetas: </span>
+					<button id="_" type="button" class="btn btn-default btn-xs">All</button>
 					{% for tag in tags %}
-						<button id="{{ tag.id }}" type="button" class="btn btn-default btn-xs">{{ tag.nombre }}</button>
+						<button id="{{ tag.name }}" type="button" class="btn btn-default btn-xs">{{ tag.name }}</button>
 					{% endfor %}
 				</p>
 				<div id="datos">
 				{% for job in jobs %}
-					<h3><a href="/jobs/{{ job.slug }}/">{{ job.title }}</a> | <small><i>by:</i> {{ job.user }}</small></h3>
+					<h3><a href="/jobs/{{ job.slug }}/">{{ job.title }}</a> | {% if job.user is None %}
+					<small><i>by:</i>Confidential</small>
+					{% else %}
+					<small><i>by:</i>{{ job.user }}</small>
+					{% endif %}
+					</h3>
 					<section>
 						<p>{{ job.description }}</p>
 						<p class="bg-success bg-fecha-customize">Publicado: <span>{{ job.modified }}</span></p>
@@ -39,8 +45,8 @@
 				var id = $(this).attr('id');
 				
 				$.ajax({
-					data: 	{'id': id},
-					url: 	'/buscar-ajax/',
+					data: 	{'name': id},
+					url: 	'/search-jobs/',
 					type: 	'get',
 					success: function(data) {
 						var html = '';

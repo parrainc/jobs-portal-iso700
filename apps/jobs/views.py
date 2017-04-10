@@ -40,17 +40,21 @@ class JobDetailView(DetailView):
 
 
 
-def BuscarAjax(request):
+def SearchJobs(request):
 	if request.is_ajax():
-
-		tag = Tag.objects.get(id = request.GET['id'])
-		jobs = Job.objects.filter(tag = tag)
+		tag_name = request.GET.get('name', None)
+		if tag_name == '_':
+			jobs = Job.objects.all()
+		else:
+			tag = Tag.objects.get(name = request.GET.get('name', None))
+			jobs = Job.objects.filter(tag = tag)
 
 		data = serializers.serialize(
 				'json', 
 				jobs, 
 				fields= {
 						'title', 
+						'user',
 						'description', 
 						'modified', 
 						'slug'

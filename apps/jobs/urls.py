@@ -3,13 +3,14 @@ from .views import (
 	JobsListView, 
 	JobsCreateView,
 	JobDetailView,
-	PostJob)
+	PostJob,
+	SearchJobs)
 
 
 urlpatterns = [
     url(r'^jobs/$', JobsListView.as_view(), name='jobs'),
     url(r'^jobs/create/$', JobsCreateView.as_view(), name='create_job'),
     url(r'^jobs/(?P<slug>[-\w]+)/$', JobDetailView.as_view(), name='detail_job'),
-    # url(r'^buscar-ajax/$', 'apps.jobs.views.BuscarAjax', name='buscar_ajax'),
+    url(r'^search-jobs/$', SearchJobs, name='search_jobs'),
     url(r'^post-job/$', PostJob, name='post_job'),
 ]
